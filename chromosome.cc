@@ -30,7 +30,16 @@ Chromosome::~Chromosome()
 void
 Chromosome::mutate()
 {
-  
+  std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
+  int gene1Index;
+  int gene2Index;
+  while (gene1Index == gene2Index){
+    gene1Index = randomInt(generator_);
+    gene2Index = randomInt(generator_);
+  }
+  unsigned int temp = order_.at(gene1Index);
+  order_.at(gene1Index) = order_.at(gene2Index);
+  order_.at(gene2Index) = temp;
 
   assert(is_valid());
 }
