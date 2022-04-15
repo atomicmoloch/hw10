@@ -92,7 +92,22 @@ Chromosome::get_fitness() const
 bool
 Chromosome::is_valid() const
 {
-  // Add your implementation here
+    int sz = order_.size();
+    if (sz != cities_ptr_->size())
+    {
+        return false;
+    }
+  int count = 0
+    for (auto it = order_.begin(); it != order_.end(); it++)
+    {
+        if(is_in_range(*it, count, sz))
+        {
+            return false;
+        }
+        count++;
+    }
+
+
 }
 
 // Find whether a certain value appears in a given range of the chromosome.
@@ -101,5 +116,21 @@ Chromosome::is_valid() const
 bool
 Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
 {
-  // Add your implementation here
+    int count = 0;
+    for (auto it = order_.begin(); it != order_.end(); it++)
+    {
+        if(count > end)
+        {
+            break;
+        }
+        else if (count > begin)
+        {
+            if (*it == value)
+            {
+                return true;
+            }
+        }
+        count++;
+    }
+    return false;
 }
