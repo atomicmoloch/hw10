@@ -43,6 +43,10 @@ class Cities {
   permutation_t random_permutation() const;
   permutation_t ordered_permutation() const;
   void input_cities(vector<coord_t> input);
+  int size() const
+  {
+      return citylist_.size();
+  }
 
 
   private:

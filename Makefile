@@ -1,4 +1,8 @@
+<<<<<<< HEAD
+
+=======
 CXX=g++
+>>>>>>> 664b944f9562e969d056091bcb555c7aba028d47
 CXXFLAGS=-Wall -Wextra -pedantic -std=c++17 -O0 -g
 LDFLAGS=$(CXXFLAGS)
 OBJ=$(SRC:.cc=.o)
