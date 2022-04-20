@@ -53,13 +53,15 @@ class Chromosome {
 
   // Return a positive fitness value, with higher numbers representing
   // fitter solutions (shorter total-city traversal path).
-  virtual double get_fitness() const;
+  virtual double get_fitness(
+) const;
 
   // Return an immutable reference to the city ordering.
   const Cities::permutation_t& get_ordering() const
   {
     return order_;
   }
+
 
  protected:
   // For an ordered set of parents, return a child using the ordered crossover.

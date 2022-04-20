@@ -35,7 +35,7 @@ Chromosome::mutate()
   int gene2Index;
   while (gene1Index == gene2Index){
     gene1Index = randomInt(generator_);
-    gene2Index = randomInt(generator_);
+   // gene2Index = randomInt(generator_); No need to rerandomize both
   }
   unsigned int temp = order_.at(gene1Index);
   order_.at(gene1Index) = order_.at(gene2Index);
@@ -44,17 +44,52 @@ Chromosome::mutate()
   assert(is_valid());
 }
 
+/* oops
+void Chromosome::mutate()
+{
+    int size = static_cast<int>(order_.size());
+    int indx1 = rand() % size;
+    int indx2 = rand() % size;
+    while (indx1 == indx2) //Just in case!
+    {
+        int indx2 = rand() % size;
+    }
+    auto tmp = order_[indx1];
+    order_[indx1] = order_[indx2];
+    order_[indx2] = tmp;
+
+}
+*/
+
 //////////////////////////////////////////////////////////////////////////////
 // Return a pair of offsprings by recombining with another chromosome
 // Note: this method allocates memory for the new offsprings
 std::pair<Chromosome*, Chromosome*>
 Chromosome::recombine(const Chromosome* other)
 {
+
   assert(is_valid());
   assert(other->is_valid());
-
-  // Add your implementation here
+  int size = static_cast<int>(order_.size());
+  unsigned b = rand() % size;
+  unsigned e = rand() % size;
+  while(b == e) //just in case!
+  {
+      e = rand() % size;
+  }
+  if (b > e) //if b is greater, swaps the values
+  {
+      auto tmp = b;
+      b = e;
+      e = tmp;
+  }
+  std::pair<Chromosome*, Chromosome*> retval;
+  retval.first = create_crossover_child(this, other, b, e);
+  retval.second = create_crossover_child(other, this, b, e);
+  return retval;
 }
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 // For an ordered set of parents, return a child using the ordered crossover.
@@ -108,7 +143,7 @@ Chromosome::is_valid() const
     {
         return false;
     }
-  int count = 0
+  int count = 0;
     for (auto it = order_.begin(); it != order_.end(); it++)
     {
         if(is_in_range(*it, count, sz))
@@ -117,7 +152,7 @@ Chromosome::is_valid() const
         }
         count++;
     }
-
+    return true;
 
 }
 
@@ -128,7 +163,7 @@ bool
 Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
 {
     int count = 0;
-    for (auto it = order_.begin(); it != order_.end(); it++)
+    for (auto iter = order_.begin(); iter != order_.end(); iter++)
     {
         if(count > end)
         {
@@ -136,7 +171,7 @@ Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
         }
         else if (count > begin)
         {
-            if (*it == value)
+            if (*iter == value)
             {
                 return true;
             }
@@ -145,3 +180,4 @@ Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
     }
     return false;
 }
+

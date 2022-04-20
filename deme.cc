@@ -28,18 +28,74 @@ Deme::~Deme()
 // After we've generated pop_size new chromosomes, we delete all the old ones.
 void Deme::compute_next_generation()
 {
-  // Add your implementation here
+    std::vector<Chromosome*> newchroms;
+    while (newchroms.size() < pop_.size())
+    {
+        auto chrom1 = select_parent();
+        auto chrom2 = select_parent();
+        if (rand() < mut_rate_)
+        {
+            chrom1->mutate();
+        }
+        if (rand() < mut_rate_)
+        {
+            chrom2->mutate();
+        }
+        auto tempchroms = chrom1->recombine(chrom2);
+        newchroms.push_back(tempchroms.first);
+        newchroms.push_back(tempchroms.second);
+    }
+
+    if (newchroms.size() > pop_.size())
+    {
+        newchroms.pop_back();
+    }
+    pop_ = newchroms;
 }
 
 // Return a copy of the chromosome with the highest fitness.
 const Chromosome* Deme::get_best() const
 {
-  // Add your implementation here
+    if (pop_.size() >= 1)
+    {
+        auto bestfitness = pop_[0]->get_fitness();
+        auto best = pop_[0];
+        for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
+        {
+            if ((*iter)->get_fitness() > bestfitness)
+            {
+                bestfitness = (*iter)->get_fitness();
+                best = *iter;
+            }
+        }
+        return best;
+        }
+    else
+    {
+        return nullptr;
+    }
 }
 
 // Randomly select a chromosome in the population based on fitness and
 // return a pointer to that chromosome.
 Chromosome* Deme::select_parent()
 {
-  // Add your implementation here
+    double total_fitness = 0.0;
+    for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
+    {
+        total_fitness+= (*iter)->get_fitness();
+    }
+    auto randsel = rand() * total_fitness;
+    double last = 0.0;
+    double curr = 0.0;
+    for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
+    {
+        curr = last + (*iter)->get_fitness();
+        if ((randsel >= last) and (randsel <= curr))
+        {
+            return *iter;
+        }
+        last = curr;
+    }
+    return nullptr; //this line should never be reached but putting it in for the sake of compiler errors
 }
