@@ -12,7 +12,7 @@
 // Generate a completely random permutation from a list of cities
 Chromosome::Chromosome(const Cities* cities_ptr)
   : cities_ptr_(cities_ptr),
-    order_(random_permutation(cities_ptr->size())),
+    order_(cities_ptr->random_permutation()),
     generator_(rand())
 {
   assert(is_valid());
@@ -30,7 +30,16 @@ Chromosome::~Chromosome()
 void
 Chromosome::mutate()
 {
-  // Add your implementation here
+  std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
+  int gene1Index;
+  int gene2Index;
+  while (gene1Index == gene2Index){
+    gene1Index = randomInt(generator_);
+    gene2Index = randomInt(generator_);
+  }
+  unsigned int temp = order_.at(gene1Index);
+  order_.at(gene1Index) = order_.at(gene2Index);
+  order_.at(gene2Index) = temp;
 
   assert(is_valid());
 }
@@ -84,7 +93,9 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
 double
 Chromosome::get_fitness() const
 {
-  // Add your implementation here
+  double distance = cities_ptr_->total_path_distance(order_);
+  assert(distance > 0.0);
+  return order_.size() / distance;
 }
 
 // A chromsome is valid if it has no repeated values in its permutation,
