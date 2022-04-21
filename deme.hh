@@ -17,7 +17,7 @@ class Deme {
   Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate);
 
   // Clean up as necessary
-  virtual ~Deme();
+  virtual ~Deme() = default;
 
   // Evolve a single generation of new chromosomes, as follows:
   // We select pop_size/2 pairs of chromosomes (using the select() method below).

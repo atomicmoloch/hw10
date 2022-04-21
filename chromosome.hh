@@ -34,7 +34,7 @@ class Chromosome {
   }
 
   // Clean up as necessary
-  virtual ~Chromosome();
+  virtual ~Chromosome() = default;
 
   // Perform a single mutation on this chromosome: swap two random cities.
   virtual void mutate();

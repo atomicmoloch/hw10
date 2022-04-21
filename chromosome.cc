@@ -12,18 +12,28 @@
 // Generate a completely random permutation from a list of cities
 Chromosome::Chromosome(const Cities* cities_ptr)
   : cities_ptr_(cities_ptr),
-    order_(cities_ptr->random_permutation()),
     generator_(rand())
 {
+  Cities::permutation_t ret(cities_ptr->size()); //copy-pasted from cities.cc because that's the only way got it to work
+  std::iota(ret.begin(), ret.end(), 0);
+
+  static std::random_device rd;  // Static so we don't initialize every time
+  static std::mt19937 g(rd());
+
+  std::shuffle(ret.begin(), ret.end(), g);
+  order_ = ret;
+
+
   assert(is_valid());
 }
 
-//////////////////////////////////////////////////////////////////////////////
+/*/////////////////////////////////////////////////////////////////////////////
 // Clean up as necessary
 Chromosome::~Chromosome()
 {
   assert(is_valid());
 }
+*/
 
 //////////////////////////////////////////////////////////////////////////////
 // Perform a single mutation on this chromosome
@@ -46,6 +56,18 @@ Chromosome::mutate()
 
 /* oops
 void Chromosome::mutate()
+￼
+Ella — Today at 8:23 PM
+lol
+NEW
+￼
+Bailey — Today at 10:01 PM
+Someone tell me to go to sleep
+￼
+Patrick — Today at 10:02 PM
+Go to sleep
+￼
+
 {
     int size = static_cast<int>(order_.size());
     int indx1 = rand() % size;
