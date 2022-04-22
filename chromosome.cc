@@ -82,7 +82,7 @@ Chromosome::recombine(const Chromosome* other)
   assert(other->is_valid());
   //int size = static_cast<int>(order_.size());
 
-    std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
+    std::uniform_int_distribution<int> randomInt(0, order_.size());
   unsigned b = randomInt(generator_);;
   unsigned e = randomInt(generator_);;
   while(b == e) //just in case!
