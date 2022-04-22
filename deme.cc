@@ -95,7 +95,9 @@ Chromosome* Deme::select_parent()
         total_fitness+= pop_[i]->get_fitness();
     }
     std::cout << "Total fitness: " << total_fitness << "\n";
-    auto randsel = rand() * total_fitness;
+    std::random_device generator;
+    std::uniform_real_distribution<double> distribution(0, total_fitness);
+    auto randsel = distribution(generator);
     double last = 0.0;
     double curr = 0.0;
     for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
