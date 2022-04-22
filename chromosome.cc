@@ -41,8 +41,8 @@ void
 Chromosome::mutate()
 {
   std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
-  int gene1Index;
-  int gene2Index;
+  int gene1Index = randomInt(generator_);
+  int gene2Index = randomInt(generator_);
   while (gene1Index == gene2Index){
     gene1Index = randomInt(generator_);
    // gene2Index = randomInt(generator_); No need to rerandomize both
@@ -150,6 +150,7 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
 double
 Chromosome::get_fitness() const
 {
+  std::cout << "first element of order is: " << order_[0] + "\n";
   double distance = cities_ptr_->total_path_distance(order_);
   assert(distance > 0.0);
   return order_.size() / distance;
@@ -160,12 +161,12 @@ Chromosome::get_fitness() const
 bool
 Chromosome::is_valid() const
 {
-    int sz = order_.size();
+    unsigned int sz = order_.size();
     if (sz != cities_ptr_->size())
     {
         return false;
     }
-  int count = 0;
+  unsigned int count = 0;
     for (auto it = order_.begin(); it != order_.end(); it++)
     {
         if(is_in_range(*it, count, sz))
@@ -184,7 +185,7 @@ Chromosome::is_valid() const
 bool
 Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
 {
-    int count = 0;
+    unsigned int count = 0;
     for (auto iter = order_.begin(); iter != order_.end(); iter++)
     {
         if(count > end)
@@ -202,4 +203,3 @@ Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
     }
     return false;
 }
-

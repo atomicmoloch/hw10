@@ -39,6 +39,7 @@ void Deme::compute_next_generation()
     {
         auto chrom1 = select_parent();
         auto chrom2 = select_parent();
+        std::cout << "Parents selected.\n";
         if (rand() < mut_rate_)
         {
             chrom1->mutate();
@@ -87,9 +88,11 @@ const Chromosome* Deme::get_best() const
 Chromosome* Deme::select_parent()
 {
     double total_fitness = 0.0;
-    for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
+    for (long unsigned int i = 0; i < pop_.size(); ++i)
     {
-        total_fitness+= (*iter)->get_fitness();
+        std::cout << i << "\n";
+        total_fitness+= pop_[i]->get_fitness();
+        std::cout << "Not get_fitness...\n";
     }
     auto randsel = rand() * total_fitness;
     double last = 0.0;

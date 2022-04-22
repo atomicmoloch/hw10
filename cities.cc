@@ -40,7 +40,7 @@ Cities::reorder(const permutation_t& ordering) const
 // For a given permutation of the cities in this object,
 // compute how long (distance) it would take to traverse all the cities in the
 // order of the permutation, and then returning to the first city.
-// The distance between any two cities is computed as the Euclidean 
+// The distance between any two cities is computed as the Euclidean
 // distance on a plane between their coordinates.
 double
 Cities::total_path_distance(const permutation_t& ord) const
@@ -48,6 +48,10 @@ Cities::total_path_distance(const permutation_t& ord) const
   double sum = 0.;
   for (unsigned i = 1; i <= ord.size(); ++i) {
     const unsigned j = i % ord.size();
+    /*std::cout << "i: " << i << ", j: " << j << ", size: " << ord.size() << "\n";
+    std::cout << "ord[j]: " << cities_[ord[j]].first << ", "<< cities_[ord[j]].second << "\n";
+    std::cout << "ord[i-1]: " << ord[i-1] << "\n";
+    std::cout << "ord[i-1]: " << cities_[ord[i-1]].first << ", "<< cities_[ord[i-1]].second << "\n";*/
     const auto dx = cities_[ord[j]].first - cities_[ord[i-1]].first;
     const auto dy = cities_[ord[j]].second - cities_[ord[i-1]].second;
     sum += std::hypot(dx, dy);
@@ -93,5 +97,3 @@ random_permutation(unsigned len)
   std::shuffle(ret.begin(), ret.end(), g);
   return ret;
 }
-
-
