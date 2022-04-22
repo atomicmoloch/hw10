@@ -56,18 +56,6 @@ Chromosome::mutate()
 
 /* oops
 void Chromosome::mutate()
-￼
-Ella — Today at 8:23 PM
-lol
-NEW
-￼
-Bailey — Today at 10:01 PM
-Someone tell me to go to sleep
-￼
-Patrick — Today at 10:02 PM
-Go to sleep
-￼
-
 {
     int size = static_cast<int>(order_.size());
     int indx1 = rand() % size;
@@ -92,12 +80,14 @@ Chromosome::recombine(const Chromosome* other)
   std::cout << "Recombining...\n";
   assert(is_valid());
   assert(other->is_valid());
-  int size = static_cast<int>(order_.size());
-  unsigned b = rand() % size;
-  unsigned e = rand() % size;
+  //int size = static_cast<int>(order_.size());
+
+    std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
+  unsigned b = randomInt(generator_);;
+  unsigned e = randomInt(generator_);;
   while(b == e) //just in case!
   {
-      e = rand() % size;
+      e = randomInt(generator_);;
   }
   if (b > e) //if b is greater, swaps the values
   {
@@ -166,9 +156,9 @@ Chromosome::is_valid() const
         return false;
     }
   unsigned int count = 0;
-    for (auto it = order_.begin(); it != order_.end(); it++)
+    for (auto it = order_.begin(); it != order_.end(); ++it) //checks for duplicates
     {
-        if(is_in_range(*it, count, sz))
+        if(is_in_range(*it, count+1, sz))
         {
             return false;
         }
@@ -185,13 +175,13 @@ bool
 Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
 {
     unsigned int count = 0;
-    for (auto iter = order_.begin(); iter != order_.end(); iter++)
+    for (auto iter = order_.begin(); iter != order_.end(); ++iter)
     {
         if(count > end)
         {
             break;
         }
-        else if (count > begin)
+        else if (count >= begin)
         {
             if (*iter == value)
             {
