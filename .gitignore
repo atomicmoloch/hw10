@@ -1,2 +1,7 @@
 
 test_chromosome.cc
+*.o
+*.tsv
+short.gif
+plot
+*.o
