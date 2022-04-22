@@ -111,6 +111,7 @@ Chromosome*
 Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
                                    unsigned b, unsigned e) const
 {
+  //
   Chromosome* child = p1->clone();
 
   // We iterate over both parents separately, copying from parent1 if the
@@ -156,10 +157,16 @@ Chromosome::is_valid() const
         return false;
     }
   unsigned int count = 0;
+  std::cout << "Checking ";
+  for (auto it = order_.begin(); it != order_.end(); ++it) {
+    std::cout << *it << " ";
+  }
+  std::cout << "\n";
     for (auto it = order_.begin(); it != order_.end(); ++it) //checks for duplicates
     {
         if(is_in_range(*it, count+1, sz))
         {
+            std::cout << "Duplicate: " << *it << "\n";
             return false;
         }
         count++;
