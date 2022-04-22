@@ -89,7 +89,7 @@ Go to sleep
 std::pair<Chromosome*, Chromosome*>
 Chromosome::recombine(const Chromosome* other)
 {
-
+  std::cout << "Recombining...\n";
   assert(is_valid());
   assert(other->is_valid());
   int size = static_cast<int>(order_.size());
@@ -150,7 +150,6 @@ Chromosome::create_crossover_child(const Chromosome* p1, const Chromosome* p2,
 double
 Chromosome::get_fitness() const
 {
-  std::cout << "first element of order is: " << order_[0] + "\n";
   double distance = cities_ptr_->total_path_distance(order_);
   assert(distance > 0.0);
   return order_.size() / distance;

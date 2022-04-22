@@ -5,6 +5,7 @@
 
 #include "chromosome.hh"
 #include "deme.hh"
+#include <cassert>
 
 // Generate a Deme of the specified size with all-random chromosomes.
 // Also receives a mutation rate in the range [0-1].
@@ -13,8 +14,9 @@ Deme::Deme(const Cities* cities_ptr, unsigned pop_size, double mut_rate)
     mut_rate_ = mut_rate;
     while (pop_size > 0)
     {
-        auto tmp = Chromosome(cities_ptr);
-        pop_.push_back(&tmp);
+        auto tmp = new Chromosome(cities_ptr);
+        //std::cout << tmp << "\n";
+        pop_.push_back(tmp);
         pop_size--;
     }
 }
@@ -90,21 +92,23 @@ Chromosome* Deme::select_parent()
     double total_fitness = 0.0;
     for (long unsigned int i = 0; i < pop_.size(); ++i)
     {
-        std::cout << i << "\n";
         total_fitness+= pop_[i]->get_fitness();
-        std::cout << "Not get_fitness...\n";
     }
+    std::cout << "Total fitness: " << total_fitness << "\n";
     auto randsel = rand() * total_fitness;
     double last = 0.0;
     double curr = 0.0;
     for (auto iter = pop_.begin(); iter != pop_.end(); ++iter)
     {
+        //std::cout << "curr = last (" << last << ") + " << (*iter)->get_fitness() << "\n";
         curr = last + (*iter)->get_fitness();
+        std::cout << "last: " << last << ", curr: " << curr << ", randsel: " << randsel << "\n";
         if ((randsel >= last) and (randsel <= curr))
         {
             return *iter;
         }
         last = curr;
     }
+    assert(false);
     return nullptr; //this line should never be reached but putting it in for the sake of compiler errors
 }
