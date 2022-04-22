@@ -41,7 +41,7 @@ void Deme::compute_next_generation()
     {
         auto chrom1 = select_parent();
         auto chrom2 = select_parent();
-        std::cout << "Parents selected.\n";
+//        std::cout << "Parents selected.\n";
         if (rand() < mut_rate_)
         {
             chrom1->mutate();
@@ -94,7 +94,7 @@ Chromosome* Deme::select_parent()
     {
         total_fitness+= pop_[i]->get_fitness();
     }
-    std::cout << "Total fitness: " << total_fitness << "\n";
+  //  std::cout << "Total fitness: " << total_fitness << "\n";
     std::random_device generator;
     std::uniform_real_distribution<double> distribution(0, total_fitness);
     auto randsel = distribution(generator);
@@ -104,7 +104,7 @@ Chromosome* Deme::select_parent()
     {
         //std::cout << "curr = last (" << last << ") + " << (*iter)->get_fitness() << "\n";
         curr = last + (*iter)->get_fitness();
-        std::cout << "last: " << last << ", curr: " << curr << ", randsel: " << randsel << "\n";
+      //  std::cout << "last: " << last << ", curr: " << curr << ", randsel: " << randsel << "\n";
         if ((randsel >= last) and (randsel <= curr))
         {
             return *iter;

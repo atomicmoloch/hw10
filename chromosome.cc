@@ -77,17 +77,17 @@ void Chromosome::mutate()
 std::pair<Chromosome*, Chromosome*>
 Chromosome::recombine(const Chromosome* other)
 {
-  std::cout << "Recombining...\n";
+ // std::cout << "Recombining...\n";
   assert(is_valid());
   assert(other->is_valid());
   //int size = static_cast<int>(order_.size());
 
-    std::uniform_int_distribution<int> randomInt(0, order_.size());
+    std::uniform_int_distribution<int> randomInt(0, order_.size()-1);
   unsigned b = randomInt(generator_);;
   unsigned e = randomInt(generator_);;
   while(b == e) //just in case!
   {
-      e = randomInt(generator_);;
+      b = randomInt(generator_);
   }
   if (b > e) //if b is greater, swaps the values
   {
@@ -95,6 +95,7 @@ Chromosome::recombine(const Chromosome* other)
       b = e;
       e = tmp;
   }
+  ///  std::cout << b << " | " << e << "\n";
   std::pair<Chromosome*, Chromosome*> retval;
   retval.first = create_crossover_child(this, other, b, e);
   retval.second = create_crossover_child(other, this, b, e);
@@ -157,16 +158,16 @@ Chromosome::is_valid() const
         return false;
     }
   unsigned int count = 0;
-  std::cout << "Checking ";
-  for (auto it = order_.begin(); it != order_.end(); ++it) {
-    std::cout << *it << " ";
-  }
-  std::cout << "\n";
+ // std::cout << "Checking ";
+  //for (auto it = order_.begin(); it != order_.end(); ++it) {
+ //   std::cout << *it << " ";
+ // }
+//  std::cout << "\n";
     for (auto it = order_.begin(); it != order_.end(); ++it) //checks for duplicates
     {
         if(is_in_range(*it, count+1, sz))
         {
-            std::cout << "Duplicate: " << *it << "\n";
+          //  std::cout << "Duplicate: " << *it << "\n";
             return false;
         }
         count++;
@@ -184,7 +185,7 @@ Chromosome::is_in_range(unsigned value, unsigned begin, unsigned end) const
     unsigned int count = 0;
     for (auto iter = order_.begin(); iter != order_.end(); ++iter)
     {
-        if(count > end)
+        if(count >= end)
         {
             break;
         }
