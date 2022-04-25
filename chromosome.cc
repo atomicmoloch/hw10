@@ -75,7 +75,7 @@ void Chromosome::mutate()
 // Return a pair of offsprings by recombining with another chromosome
 // Note: this method allocates memory for the new offsprings
 std::pair<Chromosome*, Chromosome*>
-Chromosome::recombine(const Chromosome* other)
+Chromosome::recombine(Chromosome* other)
 {
  // std::cout << "Recombining...\n";
   assert(is_valid());
@@ -97,8 +97,26 @@ Chromosome::recombine(const Chromosome* other)
   }
   ///  std::cout << b << " | " << e << "\n";
   std::pair<Chromosome*, Chromosome*> retval;
-  retval.first = create_crossover_child(this, other, b, e);
-  retval.second = create_crossover_child(other, this, b, e);
+  auto t1 = create_crossover_child(this, other, b, e);
+  if (t1->get_fitness() > this->get_fitness())
+  {
+      retval.first = t1;
+  }
+  else
+  {
+      retval.first = this;
+  }
+
+
+  auto t2 = create_crossover_child(other, this, b, e);
+  if (t2->get_fitness() > other->get_fitness())
+  {
+    retval.second = t2;
+  }
+  else
+  {
+      retval.second = other;
+  }
   return retval;
 }
 

@@ -100,7 +100,7 @@ ga_search(const Cities& cities,
   // Evolve the population to make it fitter and keep track of
   // the shortest distance generated
   for (long i = 1; i <= iters/pop_size; ++i) {
-    //std::cout << "Computing generation " << i << ":\n";
+    std::cout << "Computing generation " << i << ":\n";
     deme.compute_next_generation();    // generate next generation
 
     // Find best individual in this population
@@ -124,7 +124,7 @@ int main(int argc, char** argv)
   const auto cities = Cities(argv[1]);
   const auto pop_size = atoi(argv[2]);
   const auto mut_rate = atof(argv[3]);
-  constexpr unsigned NUM_ITER = 1000000;
+  constexpr unsigned NUM_ITER = 140000;
   assert(cities.size() > 0 && "Did you actually read the input file successfully?");
   std::cout << "Read-in successful. Starting search.\n";
 
