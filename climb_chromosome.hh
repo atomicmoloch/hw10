@@ -3,6 +3,7 @@
 #pragma once
 
 #include "chromosome.hh"
+#include <cassert>
 
 class ClimbChromosome: public Chromosome {
 public:
@@ -11,4 +12,4 @@ public:
   virtual Chromosome* clone() const override {
     return new ClimbChromosome(*this);
   }
-}
+};
