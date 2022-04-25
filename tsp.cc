@@ -100,7 +100,7 @@ ga_search(const Cities& cities,
   // Evolve the population to make it fitter and keep track of
   // the shortest distance generated
   for (long i = 1; i <= iters/pop_size; ++i) {
-    //std::cout << "Computing generation " << i << ":\n";
+    std::cout << "Computing generation " << i << ":\n";
     deme.compute_next_generation();    // generate next generation
 
     // Find best individual in this population
